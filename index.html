@@ -115,7 +115,7 @@
 <header>
   <img src="img/logo.png" alt="בעברית · תיכון אוניברסיטאי">
   <h1>הזמנת פלייר</h1>
-  <p>ממלאים את הפרטים, ותוך כמה דקות מגיע למייל פלייר מוכן וטקסט קצר לווטסאפ. רוצים לשנות משהו? עונים למייל וכותבים מה.</p>
+  <p>ממלאים את הפרטים, ותוך 20–30 דקות בערך מגיע למייל פלייר מוכן וטקסט קצר לווטסאפ. רוצים לשנות משהו? עונים למייל וכותבים מה.</p>
 </header>
 
 <main>
@@ -309,7 +309,7 @@ form.addEventListener('submit', async e => {
     const res = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
     const out = await res.json();
     if (!out.ok) throw new Error(out.error || 'error');
-    status('ok', 'קיבלנו! הפלייר יגיע ל-' + payload.email + ' בדרך כלל תוך 20 דקות. אפשר לענות למייל עם תיקונים.');
+    status('ok', 'קיבלנו! הפלייר יגיע ל-' + payload.email + ' בדרך כלל תוך 20–30 דקות (בין 7:00 ל-23:00). אפשר לענות למייל עם תיקונים.');
     form.reset(); show(); photoData = null; $('preview').hidden = true; $('ai-part').hidden = false;
     $('rows').innerHTML = ''; addRow(); addRow();
     ['name', 'email', 'code'].forEach(k => { $(k).value = store.get('flyer_' + k); });
