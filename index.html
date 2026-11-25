@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>הזמנת פלייר · בעברית</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFDFA;
+    --burgundy: #7F0119;  --burgundy-soft: #CEAFB5;
+    --teal: #018EAC;      --teal-soft: #CBDDE1;
+    --green: #025D4C;     --green-soft: #ADCEC8;
+    --olive: #28461F;     --sage: #CFE1CA;
+    --footer: #F3E8EB;
+    --line: #D9D3CC;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); }
+  body { font-family: "Rubik", sans-serif; color: var(--olive); line-height: 1.5; font-size: 17px; }
+
+  header {
+    border-top: 6px solid var(--teal);
+    padding: 28px 16px 18px;
+    text-align: center;
+  }
+  header img { height: 74px; display: block; margin: 0 auto 10px; }
+  header h1 { margin: 0; font-weight: 900; color: var(--burgundy); font-size: clamp(30px, 7vw, 42px); line-height: 1.1; }
+  header p { margin: 8px auto 0; max-width: 34em; color: var(--green); }
+
+  main { max-width: 760px; margin: 0 auto; padding: 0 16px 60px; }
+
+  fieldset, .pick label, .daterow input, .two > div { min-width: 0; }
+  fieldset {
+    border: 0; margin: 22px 0 0; padding: 20px 18px 22px;
+    background: #fff; border-radius: 14px;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  legend {
+    float: right; width: 100%; padding: 0; margin-bottom: 14px;
+    font-weight: 900; color: var(--burgundy); font-size: 22px;
+  }
+  legend .n {
+    display: inline-grid; place-items: center;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--burgundy); color: #fff; font-size: 16px; margin-left: 8px; vertical-align: 2px;
+  }
+  legend + * { clear: both; }
+
+  label { display: block; font-weight: 500; margin: 14px 0 6px; }
+  label:first-of-type { margin-top: 0; }
+  .hint { font-weight: 400; color: #5F6F59; font-size: 14px; }
+  input[type=text], input[type=email], input[type=password], input[type=url], input[type=date], input[type=time], input[type=number], textarea, select {
+    width: 100%; font: inherit; color: var(--olive);
+    border: 1.5px solid var(--line); border-radius: 10px;
+    padding: 11px 13px; background: var(--bg);
+  }
+  textarea { min-height: 96px; resize: vertical; }
+  input:focus, textarea:focus, select:focus { outline: 3px solid var(--teal-soft); border-color: var(--teal); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 520px) { .two { grid-template-columns: 1fr; } }
+
+  /* template & size pickers */
+  .pick { display: grid; gap: 12px; grid-template-columns: repeat(3, 1fr); }
+  .pick.sizes { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 600px) { .pick { grid-template-columns: 1fr; } .pick.sizes { grid-template-columns: 1fr 1fr; } }
+  .pick input { position: absolute; opacity: 0; pointer-events: none; }
+  .pick label {
+    margin: 0; cursor: pointer; border-radius: 12px; padding: 10px;
+    border: 2px solid var(--line); background: var(--bg);
+    display: flex; flex-direction: column; gap: 8px; text-align: center;
+    transition: border-color .15s, background .15s;
+  }
+  .pick label:hover { border-color: var(--teal-soft); }
+  .pick input:checked + label { border-color: var(--teal); background: #F1F7F8; }
+  .pick input:focus-visible + label { outline: 3px solid var(--teal-soft); }
+  .pick .thumb { height: 150px; display: grid; place-items: center; }
+  .pick .thumb img { max-height: 150px; max-width: 100%; border-radius: 6px; box-shadow: 0 0 0 1px var(--line); }
+  .pick b { color: var(--green); font-size: 17px; }
+  .pick small { color: #5F6F59; font-size: 13.5px; line-height: 1.35; }
+  .shape { margin: 4px auto; background: var(--teal-soft); border-radius: 4px; }
+
+  .part[hidden] { display: none; }
+
+  .daterow { display: grid; grid-template-columns: 1.1fr .8fr 2fr; gap: 8px; margin-bottom: 8px; }
+  @media (max-width: 520px) { .daterow { grid-template-columns: 1fr 1fr; } .daterow input:last-child { grid-column: 1 / -1; } }
+  .linkbtn { font: inherit; background: none; border: 0; color: var(--teal); font-weight: 700; cursor: pointer; padding: 4px 0; }
+
+  .photo-drop {
+    border: 2px dashed var(--teal-soft); border-radius: 12px; padding: 18px;
+    text-align: center; background: var(--bg); cursor: pointer;
+  }
+  .photo-drop img { max-width: 100%; max-height: 260px; border-radius: 8px; display: block; margin: 10px auto 0; }
+  .photo-drop input { display: block; margin: 8px auto 0; font: inherit; max-width: 100%; }
+
+  .submit {
+    margin-top: 26px; width: 100%;
+    font: inherit; font-weight: 900; font-size: 22px;
+    color: #fff; background: var(--burgundy);
+    border: 0; border-radius: 12px; padding: 16px;
+    cursor: pointer;
+  }
+  .submit:disabled { opacity: .55; cursor: wait; }
+  .status { margin-top: 16px; padding: 16px; border-radius: 12px; display: none; }
+  .status.ok { display: block; background: var(--sage); color: var(--green); }
+  .status.err { display: block; background: var(--footer); color: var(--burgundy); }
+  .req::after { content: " *"; color: var(--burgundy); }
+  footer { text-align: center; color: #5F6F59; font-size: 14px; padding: 0 16px 30px; }
+</style>
+</head>
+<body>
+<header>
+  <img src="img/logo.png" alt="בעברית · תיכון אוניברסיטאי">
+  <h1>הזמנת פלייר</h1>
+  <p>ממלאים את הפרטים, ותוך כמה דקות מגיע למייל פלייר מוכן וטקסט קצר לווטסאפ. רוצים לשנות משהו? עונים למייל וכותבים מה.</p>
+</header>
+
+<main>
+<form id="f" novalidate>
+
+  <fieldset>
+    <legend><span class="n">1</span>איזה פלייר?</legend>
+    <div class="pick" role="radiogroup" aria-label="תבנית">
+      <input type="radio" name="template" id="t-event" value="event" checked>
+      <label for="t-event"><span class="thumb"><img src="img/tpl-event.jpg" alt=""></span><b>אירוע אחד</b><small>מתי ואיפה. לחוג בית, ערב הורים, מפגש</small></label>
+      <input type="radio" name="template" id="t-dates" value="dates">
+      <label for="t-dates"><span class="thumb"><img src="img/tpl-dates.jpg" alt=""></span><b>כמה תאריכים</b><small>עד 4 מועדים. לימים פתוחים, סדרת מפגשים</small></label>
+      <input type="radio" name="template" id="t-notice" value="notice">
+      <label for="t-notice"><span class="thumb"><img src="img/tpl-notice.jpg" alt=""></span><b>הודעה</b><small>פסקת טקסט. להזמנה כללית, עדכון, ברכה</small></label>
+    </div>
+
+    <label style="margin-top:20px">גודל</label>
+    <div class="pick sizes" role="radiogroup" aria-label="גודל">
+      <input type="radio" name="format" id="s-square" value="square" checked>
+      <label for="s-square"><span class="shape" style="width:44px;height:44px"></span><b>ריבוע 1:1</b><small>פוסט</small></label>
+      <input type="radio" name="format" id="s-story" value="story">
+      <label for="s-story"><span class="shape" style="width:28px;height:50px"></span><b>סטורי 9:16</b><small>סטטוס בווטסאפ</small></label>
+      <input type="radio" name="format" id="s-a5" value="a5">
+      <label for="s-a5"><span class="shape" style="width:35px;height:50px"></span><b>A5</b><small>להדפסה (גם PDF)</small></label>
+      <input type="radio" name="format" id="s-custom" value="custom">
+      <label for="s-custom"><span class="shape" style="width:56px;height:34px"></span><b>מידה אחרת</b><small>רוחב × גובה</small></label>
+    </div>
+    <div class="two part" id="custom-size" hidden>
+      <div><label for="cw">רוחב בפיקסלים</label><input type="number" id="cw" name="width" min="400" max="4000" placeholder="1920"></div>
+      <div><label for="ch">גובה בפיקסלים</label><input type="number" id="ch" name="height" min="400" max="4000" placeholder="1080"></div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend><span class="n">2</span>על מה מדובר?</legend>
+    <label for="title">כותרת <span class="hint">2–4 מילים. אפשר להשאיר ריק ונציע</span></label>
+    <input type="text" id="title" name="title" maxlength="40" placeholder="חוג בית">
+    <label for="about" class="req">כמה מילים על האירוע</label>
+    <textarea id="about" name="about" required placeholder="ערב היכרות קטן עם מנהלי בית הספר לעולים לכיתה ז׳ ולהורים שלהם"></textarea>
+    <label for="audience">למי זה מיועד?</label>
+    <input type="text" id="audience" name="audience" placeholder="עולים לכיתה ז׳ וההורים">
+
+    <div class="part" id="part-event">
+      <div class="two">
+        <div><label for="e-date" class="req">תאריך</label><input type="date" id="e-date" name="date"></div>
+        <div><label for="e-time">שעה</label><input type="time" id="e-time" name="time"></div>
+      </div>
+      <label for="e-place" class="req">איפה</label>
+      <input type="text" id="e-place" name="place" placeholder="אצל משפחת כהן / בזום / באולם בית הספר">
+      <label for="e-address">כתובת ופרטים</label>
+      <input type="text" id="e-address" name="address" placeholder="רחוב, כניסה, קומה">
+    </div>
+
+    <div class="part" id="part-dates" hidden>
+      <label class="req">המועדים</label>
+      <div id="rows"></div>
+      <button type="button" class="linkbtn" id="addrow">+ עוד מועד</button>
+    </div>
+
+    <div class="part" id="part-notice" hidden>
+      <label for="body" class="req">הטקסט</label>
+      <textarea id="body" name="body" style="min-height:140px" placeholder="מה רוצים לספר? אפשר לכתוב חופשי, ננסח לפי הסגנון של בית הספר"></textarea>
+    </div>
+
+    <label for="link">קישור לקוד QR <span class="hint">לא חובה. למשל קבוצת ווטסאפ או טופס הרשמה</span></label>
+    <input type="url" id="link" name="link" dir="ltr" placeholder="https://">
+  </fieldset>
+
+  <fieldset>
+    <legend><span class="n">3</span>תמונה</legend>
+    <div class="photo-drop" id="drop">
+      <div>מעלים תמונה מהטלפון או מהמחשב <span class="hint">(לא חובה)</span></div>
+      <input type="file" id="photo" accept="image/*">
+      <img id="preview" alt="" hidden>
+    </div>
+    <div id="ai-part">
+      <label for="photo-idea">בלי תמונה? ניצור אחת. מה רואים בה? <span class="hint">לא חובה</span></label>
+      <input type="text" id="photo-idea" name="photo_idea" placeholder="סלון עם הורים ותלמידים סביב שולחן קפה">
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend><span class="n">4</span>לאן לשלוח?</legend>
+    <div class="two">
+      <div><label for="name" class="req">שם</label><input type="text" id="name" name="name" autocomplete="name"></div>
+      <div><label for="email" class="req">מייל</label><input type="email" id="email" name="email" dir="ltr" autocomplete="email"></div>
+    </div>
+    <label for="notes">עוד משהו? <span class="hint">צבע, ניסוח, מה חשוב להבליט</span></label>
+    <textarea id="notes" name="notes" style="min-height:70px"></textarea>
+    <label for="code" class="req">קוד גישה</label>
+    <input type="password" id="code" name="code" autocomplete="current-password">
+  </fieldset>
+
+  <button class="submit" id="go" type="submit">שליחה</button>
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+</form>
+</main>
+<footer>לאהוב דעת, לאהוב אדם</footer>
+
+<script>
+// After deploying the Apps Script (see README), paste its web-app URL here:
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbxyLjPNyfLkPxaxG_C07N3yrgaj__W2-AeRkoDZUQb2ZSGGaqr4wOHxrfMwMBq9aVWY8Q/exec";
+
+const $ = id => document.getElementById(id);
+const form = $('f');
+const store = {
+  get(k) { try { return localStorage.getItem(k) || ''; } catch { return ''; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} }
+};
+['name', 'email', 'code'].forEach(k => { $(k).value = store.get('flyer_' + k); });
+
+function show() {
+  const t = form.template.value;
+  $('part-event').hidden = t !== 'event';
+  $('part-dates').hidden = t !== 'dates';
+  $('part-notice').hidden = t !== 'notice';
+  $('custom-size').hidden = form.format.value !== 'custom';
+}
+form.addEventListener('change', show);
+
+function addRow(d = {}) {
+  if ($('rows').children.length >= 4) return;
+  const r = document.createElement('div');
+  r.className = 'daterow';
+  r.innerHTML = '<input type="date" aria-label="תאריך"><input type="time" aria-label="שעה"><input type="text" aria-label="מה" placeholder="מה קורה (יום פתוח לכל הכיתות)">';
+  $('rows').appendChild(r);
+  $('addrow').hidden = $('rows').children.length >= 4;
+}
+addRow(); addRow();
+$('addrow').onclick = () => addRow();
+
+// photo: preview + shrink to max 2000px JPEG before sending
+let photoData = null;
+$('photo').addEventListener('change', async e => {
+  const file = e.target.files[0];
+  photoData = null; $('preview').hidden = true; $('ai-part').hidden = false;
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = () => {
+    const max = 2000, s = Math.min(1, max / Math.max(img.width, img.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    photoData = c.toDataURL('image/jpeg', 0.86);
+    $('preview').src = photoData; $('preview').hidden = false; $('ai-part').hidden = true;
+    URL.revokeObjectURL(url);
+  };
+  img.onerror = () => { status('err', 'לא הצלחתי לקרוא את התמונה. אפשר לנסות קובץ אחר (JPG או PNG).'); };
+  img.src = url;
+});
+
+function status(kind, text) {
+  const s = $('status'); s.className = 'status ' + kind; s.textContent = text;
+}
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  const t = form.template.value;
+  const v = id => $(id).value.trim();
+  const missing = [];
+  if (!v('about')) missing.push('כמה מילים על האירוע');
+  if (t === 'event' && !v('e-date')) missing.push('תאריך');
+  if (t === 'event' && !v('e-place')) missing.push('איפה');
+  const dates = [...$('rows').children].map(r => {
+    const [d, tm, w] = r.querySelectorAll('input');
+    return { date: d.value, time: tm.value, label: w.value.trim() };
+  }).filter(x => x.date);
+  if (t === 'dates' && !dates.length) missing.push('לפחות מועד אחד');
+  if (t === 'notice' && !v('body')) missing.push('הטקסט');
+  if (form.format.value === 'custom' && (!v('cw') || !v('ch'))) missing.push('רוחב וגובה');
+  if (!v('name')) missing.push('שם');
+  if (!/^\S+@\S+\.\S+$/.test(v('email'))) missing.push('מייל');
+  if (!v('code')) missing.push('קוד גישה');
+  if (missing.length) { status('err', 'חסר: ' + missing.join(' · ')); return; }
+
+  const payload = {
+    template: t, format: form.format.value,
+    width: v('cw'), height: v('ch'),
+    title: v('title'), about: v('about'), audience: v('audience'),
+    date: v('e-date'), time: v('e-time'), place: v('e-place'), address: v('e-address'),
+    dates, body: v('body'), link: v('link'),
+    photo_idea: v('photo-idea'), notes: v('notes'),
+    name: v('name'), email: v('email'), code: v('code'),
+    photo: photoData
+  };
+  ['name', 'email', 'code'].forEach(k => store.set('flyer_' + k, v(k)));
+
+  $('go').disabled = true; $('go').textContent = 'שולחים…';
+  try {
+    const res = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+    const out = await res.json();
+    if (!out.ok) throw new Error(out.error || 'error');
+    status('ok', 'קיבלנו! הפלייר יגיע ל-' + payload.email + ' בדרך כלל תוך 20 דקות. אפשר לענות למייל עם תיקונים.');
+    form.reset(); show(); photoData = null; $('preview').hidden = true; $('ai-part').hidden = false;
+    $('rows').innerHTML = ''; addRow(); addRow();
+    ['name', 'email', 'code'].forEach(k => { $(k).value = store.get('flyer_' + k); });
+  } catch (err) {
+    const msg = String(err.message || err);
+    status('err', msg === 'bad_code' ? 'קוד הגישה לא נכון.' :
+                  msg === 'too_many' ? 'נשלחו הרבה בקשות בשעה האחרונה. אפשר לנסות שוב מאוחר יותר.' :
+                  'משהו השתבש בשליחה. אפשר לנסות שוב, ואם זה חוזר, לכתוב לאורלב.');
+  } finally {
+    $('go').disabled = false; $('go').textContent = 'שליחה';
+  }
+});
+show();
+</script>
+</body>
+</html>
